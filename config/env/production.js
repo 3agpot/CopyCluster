@@ -195,7 +195,7 @@ module.exports = {
     *                                                                          *
     ***************************************************************************/
     adapter: '@sailshq/connect-redis',
-    url: 'redis://default:redisSecret@redis-session:6379/0',
+    url: 'redis://default:changeme@redis-session:6379/0',
     //--------------------------------------------------------------------------
     // /\   OR, to avoid checking it in to version control, you might opt to
     // ||   set sensitive credentials like this using an environment variable.
@@ -204,6 +204,8 @@ module.exports = {
     // ```
     // sails_session__url=redis://admin:myc00lpAssw2D@bigsquid.redistogo.com:9562/0
     // ```
+
+    // TODO: conceal the connection string somehow
     //
     //--------------------------------------------------------------------------
 
@@ -231,7 +233,7 @@ module.exports = {
     *                                                                          *
     ***************************************************************************/
     cookie: {
-      // secure: true,
+      // secure: true, TODO: this should be set in production to make sure cookies are only sent over HTTPS
       maxAge: 24 * 60 * 60 * 1000,  // 24 hours
     },
 
@@ -261,7 +263,7 @@ module.exports = {
     *                                                                          *
     ***************************************************************************/
      onlyAllowOrigins: [
-       'http://localhost',
+       //'http://localhost',
        //'https://staging.example.com',
      ],
 
@@ -335,7 +337,7 @@ module.exports = {
     * (https://sailsjs.com/config/http)                                        *
     *                                                                          *
     ***************************************************************************/
-    // trustProxy: true,
+     trustProxy: true,
 
   },
 
@@ -385,7 +387,6 @@ module.exports = {
   ***************************************************************************/
   custom: {
     //baseUrl: 'https://example.com',
-    baseUrl: 'https://localhost',
     internalEmailAddress: 'support@example.com',
 
     // sendgridSecret: 'SG.fake.3e0Bn0qSQVnwb1E4qNPz9JZP5vLZYqjh7sn8S93oSHU',

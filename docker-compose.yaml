@@ -1,10 +1,29 @@
 version: "3.8"
 services:
-    app:
+    app1:
         image: node:12-alpine
+        depends_on:
+            - redis-session
+            - mysql
         command: sh -c "npm install && npm i nodemon -g && nodemon app"
         ports:
-            - 1337:1337
+            - 3001:1337
+        working_dir: /app
+        volumes: 
+            - ./:/app
+        environment:
+            MYSQL_HOST: mysql
+            MYSQL_USER: root
+            MYSQL_PASSWORD: secret
+            MYSQL_DB: sails
+    app2:
+        image: node:12-alpine
+        depends_on:
+            - redis-session
+            - mysql
+        command: sh -c "npm install && npm i nodemon -g && nodemon app"
+        ports:
+            - 3002:1337
         working_dir: /app
         volumes: 
             - ./:/app
@@ -20,5 +39,16 @@ services:
         environment:
             MYSQL_ROOT_PASSWORD: secret
             MYSQL_DATABASE: sails
+    redis-session:
+        image: redis:alpine
+        command: redis-server /usr/local/etc/redis/redis.conf
+        volumes:
+            - ./redis.conf:/usr/local/etc/redis/redis.conf
+    nginx:
+        image: nginx
+        ports:
+            - 8080:8080
+        volumes:
+            - ./nginx.conf:/etc/nginx/nginx.conf
 volumes:
     mysql-data:
